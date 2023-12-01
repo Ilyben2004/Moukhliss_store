@@ -198,11 +198,11 @@ function GetAllStatusCommands(){
 
     $mysqli = connect();
  
-    $res = $mysqli->query("SELECT 'status' from icon_order");
+    $res = $mysqli->query("SELECT `status` FROM icon_order");
 
     if ($res->num_rows > 0) {
         while ($row = $res->fetch_assoc()) {
-            $command_status[] = $row['status'];
+            $command_status[] = $row;
         }
     } else {
         $command_status = 0;
