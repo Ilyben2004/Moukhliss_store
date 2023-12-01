@@ -205,11 +205,12 @@ $Commands =getAllCommandes();
 
 	<div class="table">
     <div class="table-row header">
-	<div class="table-cell">#id</div>
-
-        <div class="table-cell">Titre</div>
-        <div class="table-cell">Prix</div>
+	<div id="firstcell" class="table-cell">#id</div>
+	<div class="table-cell">Prix</div>
         <div class="table-cell">Asked Quantity</div>
+
+        <div id="secondcell" class="table-cell">Titre</div>
+     
     </div>
 	<?php $Products = getProductsInCommand($command['id']);
 	
@@ -220,14 +221,16 @@ $Commands =getAllCommandes();
 			
 			   ?>
     <div class="table-row">
-	<div class="table-cell"><?php echo $Product['id']  ?></div>
-        <div class="table-cell"><?php echo $Product['title']  ?></div>
-        <div class="table-cell"><?php echo $Product['PRIX']  ?></div>
+	     <div id="firstcell" class="table-cell"><?php echo $Product['id']  ?></div>
+		 <div class="table-cell"><?php echo $Product['PRIX']  ?></div>
         <div class="table-cell"><?php echo $Product['quantity']  ?></div>
+        <div id="secondcell" class="table-cell"><?php echo $Product['title']  ?></div>
+
 
     </div>
     <?php
 	}} ?>
+	</div>
 	<label for="">Change the actual Status : </label>
    <select name="<?php echo $Product['id']  ?>" id="status_select_<?php echo $command['id']; ?>">
    <option value="<?php echo$command['STATUS'];?>"><?php echo$command['STATUS'];?></option>
@@ -244,6 +247,7 @@ $Commands =getAllCommandes();
 <?php }}}}?>
   
    </select>
+  
 </div>
 
 
