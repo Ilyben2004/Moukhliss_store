@@ -119,8 +119,8 @@ input{
   background-color:#D6EEEE;
   width: 120px;
   height: 40px;
-  border-radius: 50px;
-  border: back 1px solid;
+  border-radius: 10px;
+  border: rgb(67, 62, 62) 1px solid;
   cursor: pointer;
   
 }
@@ -132,10 +132,56 @@ button{
 
 
 #search{
-  width:300px;
+  width:320px;
 }
 
 
 .red_row{
   background-color: rgba(255, 0, 0, 0.663);
 }
+
+
+.form-popup {
+  display: none;
+  position: fixed;
+  text-align: center;
+color: black;
+ 
+  top: 50%; /* Position div at 50% from the top */
+  left: 50%; /* Position div at 50% from the left */
+  transform: translate(-50%, -50%); /* Center the div horizontally and vertically */
+  border: 8px solid #a9a9a9;
+  z-index: 100;
+  background-color:#f5f5fa;
+ max-height: 700px;
+  width: 600px;
+
+  border-radius: 4%;
+  color: black;
+  padding: 1%;
+  overflow: auto;
+
+}
+
+.content_product{
+  text-align: center;
+
+}
+.content_product input{
+  margin-top: 1%;
+  margin-bottom: 2%;
+}
+
+.content_product input:first-of-type{
+  width:400px ;
+}
+
+textarea{
+  margin-bottom: 2%;
+  background-color:#D6EEEE;
+  
+  border-radius: 10px;
+  border: back 1px solid;
+  cursor: pointer;
+}
+

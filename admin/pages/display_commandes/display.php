@@ -184,7 +184,7 @@ $Commands =getAllCommandes();
 		
 		<td><?php echo $command['id']; ?></td>
 		<td><?php echo $command['FN']." ".$command['LN'] ; ?></td>
-		<td><?php echo$command['icon'];?> <span><?php echo"  ".$command['STATUS'];?></span></td>
+		<td><?php echo$command['icon'];?> <span><?php echo"  ".$command['STATUS'];?> </span></td>
 		<td><?php echo $command['ordate']; ?></td>
 		
 		<td><?php echo $command['dilivredate'];?></td>
@@ -197,8 +197,9 @@ $Commands =getAllCommandes();
 		
 	</tr>
 	<div class="form-popup" id="<?php echo $command['id']; ?>">
-    <h3> The command with the id <?php echo $command['id']; ?> Passed by <?php echo $command['FN']." ".$command['LN'] ; ?> </h3> <br>
-	<h4>This Command has All those Products</h4>
+   <span> The command with the id <?php echo $command['id']; ?> Passed by <?php echo $command['FN']." ".$command['LN'] ; ?> </span> <br>
+	<hr><h5>ALL PRODUCTS IN THIS COMMAND</h5>
+	<br>
 	
 
 
@@ -231,6 +232,20 @@ $Commands =getAllCommandes();
     <?php
 	}} ?>
 	</div>
+	<hr>
+	<label for=""> THE TOTAL PRICE OF THIS COMMAND : <span><?php
+$query = "SELECT ROUND(SUM(products.PRIX * order_product.quantity), 2) AS total_price 
+FROM order_product 
+JOIN products ON order_product.id_product = products.id 
+WHERE order_product.id_order = " . $command['id'];
+
+
+$result = executeSingleValueQuery($query);
+echo $result;
+?>
+ MAD</span> </label>
+<br>
+<hr>
 	<label for="">Change the actual Status : </label>
    <select name="<?php echo $Product['id']  ?>" id="status_select_<?php echo $command['id']; ?>">
    <option value="<?php echo$command['STATUS'];?>"><?php echo$command['STATUS'];?></option>
@@ -247,6 +262,11 @@ $Commands =getAllCommandes();
 <?php }}}}?>
   
    </select>
+   <hr>
+   <button onclick="closeForm(<?php echo $command['id'];?>)">
+	CLOSE THIS 
+   </button>
+   <hr>
   
 </div>
 
@@ -293,7 +313,6 @@ for (var i = 0; i < popups.length; i++) {
 		function openForm( formId) {
     // Construct the form id based on the product id or any unique identifier
 	document.getElementById(formId).style.display = "block";
-	console.log(formId);
 
 
 

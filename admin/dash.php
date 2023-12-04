@@ -115,7 +115,7 @@ if (isset($_SESSION['username'])) {
 					</div>
 					
 					<div class="box-content">
-						<span class="big"><?php echo executeSingleValueQuery("SELECT SUM(op.QUANTITY * p.PRIX) AS total_revenue FROM `ORDERs` o JOIN ORDER_PRODUCT op ON o.ID = op.ID_ORDER JOIN products p ON op.ID_PRODUCT = p.ID WHERE o.STATUS = 'sold';"); ?></span>
+						<span class="big"><?php echo executeSingleValueQuery("SELECT SUM(op.QUANTITY * p.PRIX) AS total_revenue FROM `ORDERs` o JOIN ORDER_PRODUCT op ON o.ID = op.ID_ORDER JOIN products p ON op.ID_PRODUCT = p.ID WHERE o.STATUS = 'Completed';"); ?></span>
 						The total revenue generated from<br> all sold products					</div>
 				</div>
 				<div class="info-box">
@@ -124,7 +124,7 @@ if (isset($_SESSION['username'])) {
 					</div>
 					
 					<div class="box-content">
-						<span class="big"><?php echo executeSingleValueQuery("SELECT SUM(op.QUANTITY * p.PRIX) AS total_revenue FROM `ORDERs` o JOIN ORDER_PRODUCT op ON o.ID = op.ID_ORDER JOIN products p ON op.ID_PRODUCT = p.ID WHERE o.STATUS = 'sold'
+						<span class="big"><?php echo executeSingleValueQuery("SELECT SUM(op.QUANTITY * p.PRIX) AS total_revenue FROM `ORDERs` o JOIN ORDER_PRODUCT op ON o.ID = op.ID_ORDER JOIN products p ON op.ID_PRODUCT = p.ID WHERE o.STATUS = 'Completed'
  AND o.ordate >= DATE_SUB(NOW(), INTERVAL 7 DAY);
  ;"); ?></span>
 						The total revenue generated from<br> sold products(last 7 days)

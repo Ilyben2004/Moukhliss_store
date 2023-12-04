@@ -24,8 +24,9 @@ if (!isset($_SESSION['username'])) {
 
     <meta charset="UTF-8">
     <title>All Products </title>
+	<link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="../../style.css"> <!-- Link to your CSS file -->
-    <link rel="stylesheet" href="main.css"> <!-- Link to your CSS file -->
+     <!-- Link to your CSS file -->
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 
 
@@ -134,6 +135,7 @@ if (!isset($_SESSION['username'])) {
 	<thead>
 	<tr>
 		<td>Image Product</td>
+		<td>id</td>
 		<td>Title</td>
 		
 		<td>Price</td>
@@ -154,19 +156,71 @@ if (!isset($_SESSION['username'])) {
 		echo "class=red_row";
 	}?>>
 		
+	
 		<td><img src="..\..\..\product_images\<?php echo $product['image_file']; ?>" alt="" height="50px" width="50px"></td>
-		<td><?php echo $product['title']."  ".$product['image_file'] ; ?></td>
+		<td><?php echo $product['id'] ; ?></td>
+
+		<td><?php echo $product['title'] ; ?></td>
 		<td><?php echo$product['PRIX'];?></td>
 		<td><?php echo $product['Category_name']; ?></td>
 		
 		<td><?php echo $product['Quantity'];?></td>
-		<td><a href="modify\modify.php?var=<?php echo$product['id'];?>"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect> <path d="M42 26V40C42 41.1046 41.1046 42 40 42H8C6.89543 42 6 41.1046 6 40V8C6 6.89543 6.89543 6 8 6L22 6" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 26.7199V34H21.3172L42 13.3081L34.6951 6L14 26.7199Z" fill="#2F88FF" stroke="#000000" stroke-width="4" stroke-linejoin="round"></path> </g></svg> </a>
+		<td><a onclick="openForm('<?php echo $product['id']; ?>')"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect> <path d="M42 26V40C42 41.1046 41.1046 42 40 42H8C6.89543 42 6 41.1046 6 40V8C6 6.89543 6.89543 6 8 6L22 6" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 26.7199V34H21.3172L42 13.3081L34.6951 6L14 26.7199Z" fill="#2F88FF" stroke="#000000" stroke-width="4" stroke-linejoin="round"></path> </g></svg> </a>
 		
 		
 		</td>
 		
 	</tr>
+	<form action="upload.php" method="post" enctype="multipart/form-data">
+
+	<div  class="form-popup" id="form_product_<?php echo $product['id'] ; ?>">
 	
+	<img   onclick="uploadImage(<?php echo $product['id'];?>)" id="uploadedImage_<?php echo $product['id'];?>" src="..\..\..\product_images\<?php echo $product['image_file']; ?>" alt="">
+    <input name="image"  type="file" id="imageInput_<?php echo $product['id'];?>" style="display: none;" onchange="previewImage(event, <?php echo $product['id'];?>)">
+	<input type="hidden" name="pid" value="<?php echo  $product['id'] ; ?>">
+
+	<br>
+
+	
+	</center>
+	<br>
+	<hr>
+	<center>
+	<div class="content_product">
+
+	
+	<label for="">Title : </label>	<br><input name="title" id="input_test" type="text"><br>
+
+	<label for="">Descreption : </label>	<br><textarea name="descreption" id="w3review" name="w3review" rows="4" cols="50">
+At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+</textarea><br>
+	<label for=""> PRICE :</label>	<br><input name="price" type="number"><br>
+	<label for="">QUANTITY : </label>	<br><input name="quantity" type="number"><br>
+	<label for="">Please choose the new Category : </label><br>
+	<select name="category" class="classic"  id="products">
+	<option  value="<?php echo $product['Category_name'] ?>"><?php echo $product['Category_name'] ?></option>
+
+	<?php
+  
+ 
+  foreach ($cates as $cate) {
+
+	if($cate['Category_name']!=$product['Category_name']){
+
+
+
+   ?>
+<option  value="<?php echo $cate['Category_name'] ?>"><?php echo $cate['Category_name']  ?></option><?php }}?>
+  </select></div>
+	</center>
+	<hr>
+	<input type="submit" value="Upload Image" name="submit">
+
+		</div>
+		
+
+		</form>
+
 
 <?php
 	}
@@ -192,7 +246,40 @@ if (!isset($_SESSION['username'])) {
 
   
     </div>
+	<script>var popups = document.getElementsByClassName('form-popup');
+
+
+for (var i = 0; i < popups.length; i++) {
+    popups[i].style.display = 'none';
+}</script>
+<script>function openForm( formId) {
+	console.log(formId);
+document.getElementById("form_product_"+formId).style.display = "block";}
+</script>
 	<script src="script.js"></script> 
+
+
+	<script>
+  // Function to trigger file input when the image is clicked
+  function uploadImage(image_id) {
+    document.getElementById('imageInput_'+image_id).click();
+  }
+
+  // Function to preview the selected image before uploading
+  function previewImage(event, image_id) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      const imgElement = document.getElementById('uploadedImage_'+image_id);
+      imgElement.src = reader.result;
+    }
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
 </body>
 </html>
 

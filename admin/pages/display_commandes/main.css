@@ -1,4 +1,10 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;400&family=Nova+Square&family=Poppins&family=Roboto+Mono:ital@1&display=swap');
+*{
+  font-family: 'Karla', sans-serif;
+  font-family: 'Nova Square', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto Mono', monospace;
+}
 .display{
    
     padding-top: 1%;
@@ -239,25 +245,46 @@ button{
 .form-popup {
   display: none;
   position: fixed;
+  text-align: center;
+
+ 
   top: 50%; /* Position div at 50% from the top */
   left: 50%; /* Position div at 50% from the left */
   transform: translate(-50%, -50%); /* Center the div horizontally and vertically */
-  border: 3px solid #f1f1f1;
+  border: 8px solid darkgrey;
   z-index: 9;
   background-color:#f5f5fa;
-  height: 700px;
+ max-height: 700px;
   width: 600px;
-  border: black 3px solid;
+
   border-radius: 4%;
   color: black;
   padding: 1%;
-}
+  overflow: auto;
 
+}
+.form-popup::-webkit-scrollbar {
+  width: 1em;
+  
+}
+ 
+.form-popup::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+ 
+}
+ 
+.form-popup::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  border-radius: 20%;
+  
+}
 
 .table {
   display: table;
   width: 100%;
   border-collapse: collapse;
+  
 }
 
 .table-row {
@@ -290,4 +317,30 @@ button{
 
 
 
+
+
+
+
+hr.style-two {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+.form-popup span {
+  color: rgb(0, 128, 0);
+  font-weight: 1000;
+}
+
+.form-popup > span:first-child {
+ color: black;
+  font-weight: 1000;
+  font-size: 25px;
+}
+
+.form-popup button{
+  background-color: rgba(0, 128, 0, 0.482) ;
+  width: 200px;
+  height: 40px;
+  border-radius: 10%;
+}
 
