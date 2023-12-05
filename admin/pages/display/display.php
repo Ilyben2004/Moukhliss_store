@@ -172,7 +172,7 @@ if (!isset($_SESSION['username'])) {
 		</td>
 		
 	</tr>
-	<form id="form_product_<?php echo $product['id'] ; ?>" >
+	<form action="upload.php" method="post" enctype="multipart/form-data">
 
 	<div  class="form-popup" id="form_product_<?php echo $product['id'] ; ?>">
 	
@@ -215,7 +215,7 @@ if (!isset($_SESSION['username'])) {
   </select></div>
 	</center>
 	<hr>
-	<input  >
+	<input type="submit" value="MODIFY " name="submit">
 
 		</div>
 		
@@ -259,13 +259,7 @@ document.getElementById("form_product_"+formId).style.display = "block";}
 </script>
 	<script src="script.js"></script> 
 
-<script>
-	function modifyproduct(id_product){
-		var form = document.getElementById("form_product_"+id_product);
-		var title = form.title.value;
-		console.log(title);
-	}
-</script>
+
 	<script>
   // Function to trigger file input when the image is clicked
   function uploadImage(image_id) {
