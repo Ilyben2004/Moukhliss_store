@@ -172,7 +172,7 @@ if (!isset($_SESSION['username'])) {
 		</td>
 		
 	</tr>
-	<form action="upload.php" method="post" enctype="multipart/form-data">
+	<form id="form_product_<?php echo $product['id'] ; ?>" >
 
 	<div  class="form-popup" id="form_product_<?php echo $product['id'] ; ?>">
 	
@@ -190,13 +190,13 @@ if (!isset($_SESSION['username'])) {
 	<div class="content_product">
 
 	
-	<label for="">Title : </label>	<br><input name="title" id="input_test" type="text"><br>
+	<label for="">Title : </label>	<br><input value="<?php echo $product['title'];?>" name="title" id="input_test" type="text"><br>
 
-	<label for="">Descreption : </label>	<br><textarea name="descreption" id="w3review" name="w3review" rows="4" cols="50">
+	<label for="">Descreption : </label>	<br><textarea name="descreption" id="w3review"  rows="4" cols="50">
 <?php echo $product['DESCREPTION'];  ?>
 </textarea><br>
-	<label for=""> PRICE :</label>	<br><input name="price" type="number"><br>
-	<label for="">QUANTITY : </label>	<br><input name="quantity" type="number"><br>
+	<label for=""> PRICE :</label>	<br><input value="<?php echo $product['PRIX'];?>"  name="price" type="number"><br>
+	<label for="">QUANTITY : </label>	<br><input value="<?php echo $product['Quantity'];?>"  name="quantity" type="number"><br>
 	<label for="">Please choose the new Category : </label><br>
 	<select name="category" class="classic"  id="products">
 	<option  value="<?php echo $product['Category_name'] ?>"><?php echo $product['Category_name'] ?></option>
@@ -215,7 +215,7 @@ if (!isset($_SESSION['username'])) {
   </select></div>
 	</center>
 	<hr>
-	<input type="submit" value="MODIFY " name="submit">
+	<input  >
 
 		</div>
 		
@@ -259,7 +259,13 @@ document.getElementById("form_product_"+formId).style.display = "block";}
 </script>
 	<script src="script.js"></script> 
 
-
+<script>
+	function modifyproduct(id_product){
+		var form = document.getElementById("form_product_"+id_product);
+		var title = form.title.value;
+		console.log(title);
+	}
+</script>
 	<script>
   // Function to trigger file input when the image is clicked
   function uploadImage(image_id) {
@@ -284,6 +290,8 @@ document.getElementById("form_product_"+formId).style.display = "block";}
 </script>
 <script>
 	function deleteTr(id){
+
+		console.log("function delete.tr called");
 		var element = document.getElementById('tr_product_'+id);
 		element.remove();
 		var data = new FormData();

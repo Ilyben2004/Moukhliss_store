@@ -1,13 +1,21 @@
 
-
-
 document.addEventListener("DOMContentLoaded", function () {
   let selectMenu = document.querySelector("#products");
   let container = document.querySelector(".content_users");
 
-  selectMenu.addEventListener("change", function () {
+  fetch('get_categories.php')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data); 
+   data.forEach(element => {
+    console.log(element);
+      
+    });
+    selectMenu.addEventListener("change", function () {
    
       let categoryName = this.value;
+     
+      console.log(categoryName);
      
 
       let http = new XMLHttpRequest();
@@ -21,12 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
               <div class="content_users">
               <table>
               <thead>
-              <tr id="tr_product_${item.id}>
+              <tr>
                   <td>Image Product</td>
-                  <td>Id</td>
                   <td>Title</td>
-                
-                  
+                  <td>Id</td>
                   <td>Price</td>
                   <td>Category</td>
                   <td>Quantity</td>
@@ -40,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
               for (let item of response) {
                
-                  out += `<tr`;
+                  out += `<tr  id="tr_product_${item.id}"`;
 
 if (item.Quantity <= 0) {
   out += " class=\"red_row\"";
@@ -48,7 +54,6 @@ if (item.Quantity <= 0) {
 
 out += `>
   <td><img src="../../../product_images/${item.image_file}" alt="" height="50px" width="50px"></td>
- 
   <td>${item.id}</td>
   <td>${item.title}</td>
   <td>${item.PRIX}</td>
@@ -61,9 +66,57 @@ out += `>
 		
           
   </td>
-</tr>`;
+</tr>
+<form action="upload.php" method="post" enctype="multipart/form-data">
+<div  class="form-popup" id="form_product_${item.id}">
+<img   onclick="uploadImage(${item.id})" id="uploadedImage_${item.id}" src="../../../product_images/${item.image_file}" alt="">
+<input name="image"  type="file" id="imageInput_${item.id}" style="display: none;" onchange="previewImage(event, ${item.id})">
+<input type="hidden" name="pid" value="${item.id}">
+
+
+<br>
+</center>
+	<br>
+	<hr>
+	<center>
+	<div class="content_product">
+
+	
+	<label for="">Title : </label>	<br><input value="${item.title}" name="title" id="input_test" type="text"><br>
+  <label for="">Descreption : </label>	<br><textarea name="descreption" id="w3review"  rows="4" cols="50">
+  ${item.DESCREPTION}
+  </textarea><br>
+  <label for=""> PRICE :</label>	<br><input value="${item.PRIX}"  name="price" type="number"><br>
+	<label for="">QUANTITY : </label>	<br><input value="${item.Quantity}"  name="quantity" type="number"><br>
+	<label for="">Please choose the new Category : </label><br>
+  <select name="category" class="classic"  id="products">
+	<option  value="${item.Category_name}">${item.Category_name}</option>
+
+
+`;
+data.forEach(element => {
+  if(element.Category_name!=item.Category_name)
+  out+=`<option  value="${element.Category_name}">${element.Category_name}</option>`;
+    
+  });
+
+
+
+
+
+
+  out+=`</select></div>
+	</center>
+	<hr>
+	<input type="submit" value="MODIFY " name="submit">
+
+		</div>
+		
+
+		</form>`;
 
               }}
+
           
               out+=" </table> </div>";
               container.innerHTML = out;
@@ -74,6 +127,13 @@ out += `>
       http.setRequestHeader("content-type", "application/x-www-form-urlencoded");
       http.send("category=" + categoryName);
   });
+   
+  })
+  .catch(error => {
+    console.error('Error fetching categories:', error);
+  });
+
+  
 });
 
 
