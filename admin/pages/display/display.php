@@ -172,7 +172,7 @@ if (!isset($_SESSION['username'])) {
 		</td>
 		
 	</tr>
-	<form action="upload.php" method="post" enctype="multipart/form-data">
+	<form id="formElement_<?php echo $product['id']; ?>"   class="productFormall" action="upload.php" method="POST" data-product-id="<?php echo $product['id']; ?>">
 
 	<div  class="form-popup" id="form_product_<?php echo $product['id'] ; ?>">
 	
@@ -215,7 +215,7 @@ if (!isset($_SESSION['username'])) {
   </select></div>
 	</center>
 	<hr>
-	<input type="submit" value="MODIFY " name="submit">
+	<input value="MODIFY " name="submit" type="submit">
 
 		</div>
 		
@@ -274,7 +274,7 @@ document.getElementById("form_product_"+formId).style.display = "block";}
     reader.onload = function() {
       const imgElement = document.getElementById('uploadedImage_'+image_id);
       imgElement.src = reader.result;
-	  d
+	  
     }
 
     if (file) {
@@ -311,6 +311,100 @@ fetch('delete.php', {
 
 	}
 </script>
+
+
+<script>
+// Get all forms with the class 'productForm'
+const productForms = document.querySelectorAll('.productFormall');
+
+productForms.forEach(form => {
+    form.addEventListener('submit', function(event) {
+		console.log("diiid u just callll me");
+        event.preventDefault(); // Prevent the default form submission
+
+        
+        const formData = new FormData(this);
+		const productId = this.getAttribute('data-product-id'); 
+
+        // Send form data to PHP script for processing
+        fetch(this.getAttribute('action'), {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                // Handle the response as needed
+                console.log(`Product  modified successfully`);
+				const tr = document.getElementById('tr_product_'+productId);
+                console.log(formData.get('image').name);
+				if(formData.get('image').name!=""){
+				if (tr.firstElementChild) {
+    tr.firstElementChild.innerHTML = '<img src="../../../product_images/'+formData.get('image').name+'" alt="" height="50px" width="50px">';
+}
+}
+console.log(formData.get('title'));
+tr.children[2].innerHTML= formData.get('title')  ;
+tr.children[3].innerHTML= formData.get('price')  ;
+tr.children[4].innerHTML= formData.get('category')  ;
+tr.children[5].innerHTML= formData.get('quantity')  ;
+alert("your product has ben changed succefully");
+
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch
+                console.error(`Error modifying product:`, error);
+            });
+    });
+});
+</script>
+
+<!-- <script>
+	function modify(pid){
+		console.log("fuuuuunctipo calleld b h h h h h h");
+		console.log(pid)
+		var formid = 'formElement_'+pid;
+		console.log(formid);
+		const productId = this.getAttribute('data-product-id'); 
+		const formElement = document.getElementById(formid);
+
+
+
+		const formData = new FormData(formElement);
+
+		console.log(formData.get('title'));
+
+
+
+        // Send form data to PHP script for processing
+        fetch(formElement.getAttribute('action'), {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                // Handle the response as needed
+                console.log(`Product  modified successfully`);
+				const tr = document.getElementById('tr_product_'+productId);
+                console.log(formData.get('image').name);
+				if(formData.get('image').name!=""){
+				if (tr.firstElementChild) {
+    tr.firstElementChild.innerHTML = '<img src="../../../product_images/'+formData.get('image').name+'" alt="" height="50px" width="50px">';
+}
+}
+console.log(formData.get('title'));
+tr.children[2].innerHTML= formData.get('title')  ;
+tr.children[3].innerHTML= formData.get('price')  ;
+tr.children[4].innerHTML= formData.get('category')  ;
+tr.children[5].innerHTML= formData.get('quantity')  ;
+alert("your product has ben changed succefully");
+
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch
+                console.error(`Error modifying product:`, error);
+            });
+
+	}
+</script> -->
+
 </body>
 </html>
 

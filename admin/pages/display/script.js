@@ -31,8 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
               <thead>
               <tr>
                   <td>Image Product</td>
-                  <td>Title</td>
                   <td>Id</td>
+                  <td>Title</td>
+                 
                   <td>Price</td>
                   <td>Category</td>
                   <td>Quantity</td>
@@ -67,7 +68,8 @@ out += `>
           
   </td>
 </tr>
-<form action="upload.php" method="post" enctype="multipart/form-data">
+<form id="formElement_${item.id}"   class="productFormall" action="upload.php" method="POST" data-product-id="${item.id}">
+
 <div  class="form-popup" id="form_product_${item.id}">
 <img   onclick="uploadImage(${item.id})" id="uploadedImage_${item.id}" src="../../../product_images/${item.image_file}" alt="">
 <input name="image"  type="file" id="imageInput_${item.id}" style="display: none;" onchange="previewImage(event, ${item.id})">
@@ -108,8 +110,7 @@ data.forEach(element => {
   out+=`</select></div>
 	</center>
 	<hr>
-	<input type="submit" value="MODIFY " name="submit">
-
+  <input value="MODIFY " name="submit" type="submit">
 		</div>
 		
 
@@ -119,6 +120,7 @@ data.forEach(element => {
 
           
               out+=" </table> </div>";
+              console.log(out);
               container.innerHTML = out;
           }
       };

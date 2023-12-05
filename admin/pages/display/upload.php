@@ -3,7 +3,7 @@ require '../../../PHP/Functions.php';
 
 $connection = connect();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
     // Sanitize and retrieve form inputs
     $title = $_POST['title'];
     $des =  $_POST['descreption'];
