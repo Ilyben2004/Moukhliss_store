@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;400&family=Nova+Square&family=Poppins&family=Roboto+Mono:ital@1&display=swap');
+
 * {
     box-sizing: border-box;
   }
+*
+{
+   font-family: 'Karla', sans-serif;
+   font-family: 'Nova Square', sans-serif;
+   font-family: 'Poppins', sans-serif;
+   font-family: 'Roboto Mono', monospace;
+}
   html,
   body {
     color: #99a0b0;

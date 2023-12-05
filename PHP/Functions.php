@@ -73,7 +73,7 @@ function getidbycate($category){
 
 function getAllProducts(){
     $mysqli = connect();
-   $res = $mysqli->query("SELECT p.id, p.title, p.PRIX, p.Quantity, p.image_file, c.Category_name FROM products p INNER JOIN category c ON c.id = p.id_category  ORDER BY p.title  ");
+   $res = $mysqli->query("SELECT p.id, p.title, p.PRIX, p.Quantity,p.DESCREPTION, p.image_file, c.Category_name FROM products p INNER JOIN category c ON c.id = p.id_category  ORDER BY p.title  ");
    if ($res->num_rows > 0){
    while($row = $res->fetch_assoc()){
       $products[] = $row;
@@ -123,7 +123,7 @@ function getcatebyid($idcategory){
     $mysqli = connect(); 
     if ($mysqli->connect_errno) {
         
-        return null;
+        return 0;
     }
 
     $result = $mysqli->query($query);
@@ -133,13 +133,16 @@ function getcatebyid($idcategory){
         $row = $result->fetch_row();
 
         if ($row) {
-          
+  
             return $row[0];
+        }
+        else{
+            return 0 ;
         }
     }
 
   
-    return null;
+    return 0;
 }
 
 

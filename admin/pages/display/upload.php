@@ -15,34 +15,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $pid  =$_POST['pid'];
 
     $selectedCategory = $_POST['category'];
-    echo $title;
-    echo $des;
-    echo $price;
-    echo $qt;   
-    echo $selectedCategory;
-    echo "   ". $image ."    ";
-echo $pid;
 
+$id_category=getidbycate($selectedCategory);
+
+$updateQuery = "UPDATE products SET title = '$title', DESCREPTION = '$des',PRIX=$price , id_category=$id_category, Quantity=$qt WHERE id = '$pid'";
+
+// Execute the update query
+if (mysqli_query($connection, $updateQuery)) {
+    echo "Update successful!";
+} else {
+    echo "Error updating record: " . mysqli_error($connection);
+}
 
     
-    // Ensure a file is selected
     if ($image) {
         $imagePath = '../../../product_images/' . $image; // Set the path where you want to store the uploaded image
-        echo  $imagePath;
-        // Move the uploaded file to the specified location
+          
         if (move_uploaded_file($tempImage, $imagePath)) {
-            // Insert the image path or other relevant information into the database
-            $query = "INSERT INTO your_table_name (image_path) VALUES ('$imagePath')";
-            
-            // Execute the query
-            // $result = mysqli_query($connection, $query); // Execute the query using your database connection
-            
-            // Check if the query was successful
-            // if ($result) {
-            //     echo "Image uploaded and inserted into database successfully!";
-            // } else {
-            //     echo "Error inserting image into database: " . mysqli_error($connection);
-            // }
+            $updateQuery = "UPDATE products SET image_file = '$image' WHERE id = '$pid'";
+
+// Execute the update query
+if (mysqli_query($connection, $updateQuery)) {
+    echo "Update successful!";
+
+} else {
+    echo "Error updating record: " . mysqli_error($connection);
+}
+          
         } else {
             echo "Failed to upload image.";
         }
@@ -50,4 +49,6 @@ echo $pid;
         echo "Please select an image file.";
     }
 }
+header("Location: display.php");
+exit; // 
 ?>

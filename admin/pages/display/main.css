@@ -1,4 +1,10 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;400&family=Nova+Square&family=Poppins&family=Roboto+Mono:ital@1&display=swap');
+*{
+  font-family: 'Karla', sans-serif;
+  font-family: 'Nova Square', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto Mono', monospace;
+}
 .display{
    
     padding-top: 1%;
@@ -137,8 +143,7 @@ button{
 
 
 .red_row{
-  background-color: rgba(255, 0, 0, 0.663);
-}
+  background-color: rgba(255, 110, 106, 0.53);}
 
 
 .form-popup {
@@ -185,3 +190,6 @@ textarea{
   cursor: pointer;
 }
 
+#products{
+  margin-top: 1.2%;
+}

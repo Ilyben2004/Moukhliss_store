@@ -152,7 +152,7 @@ if (!isset($_SESSION['username'])) {
 			   ?>
 		
 
-	<tr <?php if($product['Quantity']<=0){
+	<tr id="tr_product_<?php echo $product['id'];  ?>" <?php if($product['Quantity']<=0){
 		echo "class=red_row";
 	}?>>
 		
@@ -166,6 +166,7 @@ if (!isset($_SESSION['username'])) {
 		
 		<td><?php echo $product['Quantity'];?></td>
 		<td><a onclick="openForm('<?php echo $product['id']; ?>')"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect> <path d="M42 26V40C42 41.1046 41.1046 42 40 42H8C6.89543 42 6 41.1046 6 40V8C6 6.89543 6.89543 6 8 6L22 6" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 26.7199V34H21.3172L42 13.3081L34.6951 6L14 26.7199Z" fill="#2F88FF" stroke="#000000" stroke-width="4" stroke-linejoin="round"></path> </g></svg> </a>
+		<a onclick="deleteTr('<?php echo $product['id']; ?>')"><svg viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="10.24"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#0452c8"></path><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"></path></g><g id="SVGRepo_iconCarrier"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#0452c8"></path><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"></path></g></svg></a>
 		
 		
 		</td>
@@ -192,7 +193,7 @@ if (!isset($_SESSION['username'])) {
 	<label for="">Title : </label>	<br><input name="title" id="input_test" type="text"><br>
 
 	<label for="">Descreption : </label>	<br><textarea name="descreption" id="w3review" name="w3review" rows="4" cols="50">
-At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+<?php echo $product['DESCREPTION'];  ?>
 </textarea><br>
 	<label for=""> PRICE :</label>	<br><input name="price" type="number"><br>
 	<label for="">QUANTITY : </label>	<br><input name="quantity" type="number"><br>
@@ -214,7 +215,7 @@ At w3schools.com you will learn how to make a website. They offer free tutorials
   </select></div>
 	</center>
 	<hr>
-	<input type="submit" value="Upload Image" name="submit">
+	<input type="submit" value="MODIFY " name="submit">
 
 		</div>
 		
@@ -273,12 +274,40 @@ document.getElementById("form_product_"+formId).style.display = "block";}
     reader.onload = function() {
       const imgElement = document.getElementById('uploadedImage_'+image_id);
       imgElement.src = reader.result;
+	  d
     }
 
     if (file) {
       reader.readAsDataURL(file);
     }
   }
+</script>
+<script>
+	function deleteTr(id){
+		var element = document.getElementById('tr_product_'+id);
+		element.remove();
+		var data = new FormData();
+data.append('id', id); // Ensure 'id' here matches the variable name you're sending
+
+// Make a POST request to the PHP script with the variable
+fetch('delete.php', {
+  method: 'POST',
+  body: data
+})
+  .then(response => {
+    if (response.ok) {
+      console.log('PHP script executed successfully');
+      // Handle the response if needed
+    } else {
+      console.error('PHP script execution failed');
+    }
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+
+
+	}
 </script>
 </body>
 </html>
