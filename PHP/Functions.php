@@ -73,7 +73,31 @@ function getidbycate($category){
 
 function getAllProducts(){
     $mysqli = connect();
-   $res = $mysqli->query("SELECT p.id, p.title, p.PRIX, p.Quantity,p.DESCREPTION, p.image_file, c.Category_name FROM products p INNER JOIN category c ON c.id = p.id_category  ORDER BY p.title  ");
+   $res = $mysqli->query("SELECT 
+   p.id, 
+   p.title, 
+   p.PRIX, 
+   p.Quantity, 
+   p.DESCREPTION, 
+   p.image_file, 
+   c.Category_name, 
+   COUNT(op.id_order) AS times_sold
+FROM 
+   products p
+INNER JOIN 
+   category c ON c.id = p.id_category
+LEFT JOIN 
+   order_product op ON op.id_product = p.id
+GROUP BY 
+   p.id, 
+   p.title, 
+   p.PRIX, 
+   p.Quantity, 
+   p.DESCREPTION, 
+   p.image_file, 
+   c.Category_name
+ORDER BY 
+   p.title ");
    if ($res->num_rows > 0){
    while($row = $res->fetch_assoc()){
       $products[] = $row;
@@ -109,7 +133,32 @@ function getcatebyid($idcategory){
  function getProductsByCategory($category){
     $mysqli = connect();
   
-    $res = $mysqli->query("SELECT p.id, p.title,p.DESCREPTION, p.PRIX, p.Quantity, p.image_file, c.Category_name FROM products p INNER JOIN category c ON c.id = p.id_category and c.Category_name='$category' ORDER BY p.title   ");
+    $res = $mysqli->query("SELECT 
+    p.id,
+    p.title,
+    p.DESCREPTION,
+    p.PRIX,
+    p.Quantity,
+    p.image_file,
+    c.Category_name,
+    COALESCE(s.times_sold, 0) AS times_sold
+FROM 
+    products p
+INNER JOIN 
+    category c ON c.id = p.id_category 
+        AND c.Category_name = '$category'
+LEFT JOIN (
+    SELECT 
+        id_product,
+        COUNT(*) AS times_sold
+    FROM 
+        order_product
+    GROUP BY 
+        id_product
+) s ON p.id = s.id_product
+ORDER BY 
+    p.title;
+  ");
     if ($res->num_rows > 0){
     while($row = $res->fetch_assoc()){
        $products[] = $row;

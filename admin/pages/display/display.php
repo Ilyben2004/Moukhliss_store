@@ -5,10 +5,11 @@ require '../../../PHP/Functions.php';
 
 if (!isset($_SESSION['username'])) {
   
-	$user=$_SESSION['username'];
+	$user="ilyas";
 
 
 }
+
 
 
 
@@ -56,7 +57,7 @@ if (!isset($_SESSION['username'])) {
 	<header class="menu-wrap">
 		<figure class="user">
 			<div class="user-avatar">
-				<img src="..\..\..\resources\images\profile.webp" alt="Amanda King">
+			<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 			</div>
 			<figcaption>
 				<?php  echo $user ?>
@@ -105,6 +106,8 @@ if (!isset($_SESSION['username'])) {
   <div class="product-wrapper">
   <div class="display">
 	<div class="before_table">
+		
+	
 	<section class="main">
       
       <div class="main-skills">
@@ -114,26 +117,45 @@ if (!isset($_SESSION['username'])) {
         <div class="card">
           <i ><svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .feather_een{fill:#111918;} </style> <path class="feather_een" d="M9,2C7.346,2,6,3.346,6,5s1.346,3,3,3l1.001,0l0-6L9,2z M9,7C7.895,7,7,6.105,7,5c0-1.105,0.895-2,2-2 V7z M11,24v3c0,0.552,0.448,1,1,1h8c0.552,0,1-0.448,1-1v-3c0-0.552-0.448-1-1-1h-8C11.448,23,11,23.448,11,24z M20,27h-8v-3h8V27z M17,17c3.311,0,5.996-2.682,6-5.993L23.001,10c2.924,0,5.261-2.509,4.976-5.491C27.729,1.909,25.397,0,22.786,0H9.215 C6.604,0,4.271,1.909,4.023,4.509C3.739,7.491,6.076,10,9,10l0.001,1.006c0.004,3.311,2.689,5.993,6,5.993h0.5v0H15.5v1.999H14 c-0.552,0-1,0.448-1,1V21h-1c-1.657,0-3,1.343-3,3v5H8c-0.552,0-1,0.448-1,1v1c0,0.552,0.448,1,1,1h16c0.552,0,1-0.448,1-1v-1 c0-0.552-0.448-1-1-1h-1v-5c0-1.657-1.343-3-3-3h-1v-1.001c0-0.552-0.448-1-1-1h-1.5v-2H17z M24,30v1H8v-1H24z M20,22 c1.105,0,2,0.895,2,2v5H10v-5c0-1.105,0.895-2,2-2H20z M18,19.999v1H14v-1H18z M15.001,16c-2.757,0-5-2.243-5-5V9L8.949,9 C6.766,8.972,5,7.189,5,5c0-2.206,1.794-4,4-4h14.001c2.206,0,4,1.794,4,4c0,2.189-1.766,3.972-3.949,4L22,9v2c0,2.757-2.243,5-5,5 H15.001z M26.001,5c0-1.654-1.346-3-3-3L22,2l0,6l1.001,0C24.655,8,26.001,6.654,26.001,5z M23.001,3c1.105,0,2,0.895,2,2 c0,1.105-0.895,2-2,2V3z"></path> </g></svg></i>
           <h3>best product </h3>
-		  <p> <?php echo executeSingleValueQuery("SELECT COUNT(*) from orders where status='Pending'"); ?> orders :  <?php echo executeSingleValueQuery("SELECT (COUNT(CASE WHEN status = 'Pending' THEN 1 END) / COUNT(*)) * 100 AS percentage FROM orders
-"); ?>%</p> 
+		  <p> <?php echo executeSingleValueQuery("SELECT 
+    p.title,
+    COUNT(op.id_order) AS total_sales
+FROM 
+    products p
+LEFT JOIN 
+    order_product op ON op.id_product = p.id
+GROUP BY 
+    p.id, 
+    p.title
+ORDER BY 
+    total_sales DESC
+LIMIT 1"); ?></p> 
         </div>
-        <div class="card">
-          <i ><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect x="0" fill="none" width="20" height="20"></rect> <g> <path d="M17 8h1v11H2V8h1V6c0-2.76 2.24-5 5-5 .71 0 1.39.15 2 .42.61-.27 1.29-.42 2-.42 2.76 0 5 2.24 5 5v2zM5 6v2h2V6c0-1.13.39-2.16 1.02-3H8C6.35 3 5 4.35 5 6zm10 2V6c0-1.65-1.35-3-3-3h-.02c.63.84 1.02 1.87 1.02 3v2h2zm-5-4.22C9.39 4.33 9 5.12 9 6v2h2V6c0-.88-.39-1.67-1-2.22z"></path> </g> </g></svg></i>
-          <h3>how many products sold</h3>
-          <p> <?php echo executeSingleValueQuery("SELECT COUNT(*) from orders where status='Delevring'"); ?> orders :  <?php echo executeSingleValueQuery("SELECT (COUNT(CASE WHEN status = 'Delevring' THEN 1 END) / COUNT(*)) * 100 AS percentage FROM orders
-"); ?>%</p> 
-        </div>
+       
         <div class="card">
           <i ><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M9 10L12.2581 12.4436C12.6766 12.7574 13.2662 12.6957 13.6107 12.3021L20 5" stroke="#33363F" stroke-width="2" stroke-linecap="round"></path> <path d="M21 12C21 13.8805 20.411 15.7137 19.3156 17.2423C18.2203 18.7709 16.6736 19.9179 14.893 20.5224C13.1123 21.1268 11.187 21.1583 9.38744 20.6125C7.58792 20.0666 6.00459 18.9707 4.85982 17.4789C3.71505 15.987 3.06635 14.174 3.00482 12.2945C2.94329 10.415 3.47203 8.56344 4.51677 6.99987C5.56152 5.4363 7.06979 4.23925 8.82975 3.57685C10.5897 2.91444 12.513 2.81996 14.3294 3.30667" stroke="#33363F" stroke-width="2" stroke-linecap="round"></path> </g></svg></i>
           <h3>all the quantity sold</h3>
-		  <p> <?php echo executeSingleValueQuery("SELECT COUNT(*) from orders where status='Completed'"); ?> orders :  <?php echo executeSingleValueQuery("SELECT (COUNT(CASE WHEN status = 'Completed' THEN 1 END) / COUNT(*)) * 100 AS percentage FROM orders
-"); ?>%</p>         
+		  <p> <?php echo executeSingleValueQuery("SELECT SUM(quantity) AS total_products_sold
+FROM order_product;
+"); ?></p>         
         </div>
 		<div class="card">
           <i ><svg fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cancel</title> <path d="M10.771 8.518c-1.144 0.215-2.83 2.171-2.086 2.915l4.573 4.571-4.573 4.571c-0.915 0.915 1.829 3.656 2.744 2.742l4.573-4.571 4.573 4.571c0.915 0.915 3.658-1.829 2.744-2.742l-4.573-4.571 4.573-4.571c0.915-0.915-1.829-3.656-2.744-2.742l-4.573 4.571-4.573-4.571c-0.173-0.171-0.394-0.223-0.657-0.173v0zM16 1c-8.285 0-15 6.716-15 15s6.715 15 15 15 15-6.716 15-15-6.715-15-15-15zM16 4.75c6.213 0 11.25 5.037 11.25 11.25s-5.037 11.25-11.25 11.25-11.25-5.037-11.25-11.25c0.001-6.213 5.037-11.25 11.25-11.25z"></path> </g></svg></i>
           <h3>Worst Product </h3>
-		  <p> <?php echo executeSingleValueQuery("SELECT COUNT(*) from orders where status='Cancelled'"); ?> orders : <?php echo executeSingleValueQuery("SELECT (COUNT(CASE WHEN status = 'Cancelled' THEN 1 END) / COUNT(*)) * 100 AS percentage FROM orders
-"); ?>%</p>
+		  <p> <?php echo executeSingleValueQuery("SELECT 
+    p.title,
+    COUNT(op.id_order) AS total_sales
+FROM 
+    products p
+LEFT JOIN 
+    order_product op ON op.id_product = p.id
+GROUP BY 
+    p.id, 
+    p.title
+ORDER BY 
+    total_sales ASC
+LIMIT 1
+"); ?></p>
         </div>
       </div>
 
@@ -141,6 +163,7 @@ if (!isset($_SESSION['username'])) {
      
     </section>
 	
+	<center>
 		
 	<select name="category" class="classic" name="chooses" id="products">
 	<option  value="">All Products</option>
@@ -156,7 +179,7 @@ if (!isset($_SESSION['username'])) {
 <option  value="<?php echo $cate['Category_name'] ?>"><?php echo $cate['Category_name']  ?></option><?php }?>
 
 </select>
-
+</center>
 	</div>
 
 <div id="showdata" class="content_users">
@@ -177,6 +200,7 @@ if (!isset($_SESSION['username'])) {
 		<td>Price</td>
 		<td>Category</td>
 		<td>Quantity</td>
+		<td>times_sold</td>
 		<td>Actions</td>
 	</tr>
 	</thead>
@@ -199,8 +223,10 @@ if (!isset($_SESSION['username'])) {
 		<td><?php echo $product['title'] ; ?></td>
 		<td><?php echo$product['PRIX'];?></td>
 		<td><?php echo $product['Category_name']; ?></td>
+
 		
 		<td><?php echo $product['Quantity'];?></td>
+		<td><?php echo $product['times_sold'];?></td>
 		<td><a onclick="openForm('<?php echo $product['id']; ?>')"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect> <path d="M42 26V40C42 41.1046 41.1046 42 40 42H8C6.89543 42 6 41.1046 6 40V8C6 6.89543 6.89543 6 8 6L22 6" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 26.7199V34H21.3172L42 13.3081L34.6951 6L14 26.7199Z" fill="#2F88FF" stroke="#000000" stroke-width="4" stroke-linejoin="round"></path> </g></svg> </a>
 		<a onclick="deleteTr('<?php echo $product['id']; ?>')"><svg viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="10.24"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#0452c8"></path><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"></path></g><g id="SVGRepo_iconCarrier"><path d="M779.5 1002.7h-535c-64.3 0-116.5-52.3-116.5-116.5V170.7h768v715.5c0 64.2-52.3 116.5-116.5 116.5zM213.3 256v630.1c0 17.2 14 31.2 31.2 31.2h534.9c17.2 0 31.2-14 31.2-31.2V256H213.3z" fill="#0452c8"></path><path d="M917.3 256H106.7C83.1 256 64 236.9 64 213.3s19.1-42.7 42.7-42.7h810.7c23.6 0 42.7 19.1 42.7 42.7S940.9 256 917.3 256zM618.7 128H405.3c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h213.3c23.6 0 42.7 19.1 42.7 42.7S642.2 128 618.7 128zM405.3 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7S448 403 448 426.6v256c0 23.6-19.1 42.7-42.7 42.7zM618.7 725.3c-23.6 0-42.7-19.1-42.7-42.7v-256c0-23.6 19.1-42.7 42.7-42.7s42.7 19.1 42.7 42.7v256c-0.1 23.6-19.2 42.7-42.7 42.7z" fill="#5F6379"></path></g></svg></a>
 		
@@ -280,7 +306,8 @@ if (!isset($_SESSION['username'])) {
 
 
     </div>
-
+	<hr>
+	<br>
   
     </div>
 	<script>var popups = document.getElementsByClassName('form-popup');

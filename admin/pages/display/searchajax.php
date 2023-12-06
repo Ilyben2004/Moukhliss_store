@@ -5,11 +5,33 @@ require '../../../PHP/Functions.php';
 
 $conn = connect(); 
 $name = mysqli_real_escape_string($conn, $_POST['name']); 
-$sql = "SELECT p.id, p.title, p.PRIX, p.Quantity, p.image_file, c.Category_name 
-        FROM products p 
-        INNER JOIN category c ON c.id = p.id_category 
-        WHERE (p.title LIKE '%$name%' OR p.title LIKE '%$name' OR p.title LIKE '$name%') 
-        ORDER BY p.title";
+$sql = "
+    SELECT 
+        p.id,
+        p.title,
+        p.PRIX,
+        p.Quantity,
+        p.image_file,
+        c.Category_name,
+        COALESCE(s.times_sold, 0) AS times_sold
+    FROM 
+        products p
+    INNER JOIN 
+        category c ON c.id = p.id_category 
+    LEFT JOIN (
+        SELECT 
+            id_product,
+            COUNT(*) AS times_sold
+        FROM 
+            order_product
+        GROUP BY 
+            id_product
+    ) s ON p.id = s.id_product
+    WHERE 
+        (p.title LIKE '%$name%' OR p.title LIKE '%$name' OR p.title LIKE '$name%')
+    ORDER BY 
+        p.title;
+";
 
 $query = mysqli_query($conn, $sql);
 
@@ -17,11 +39,13 @@ $data = "<table>
  <thead>
 <tr>
     <td>Image Product</td>
+    <td>Id</td>
     <td>Title</td>
     
     <td>Price</td>
     <td>Category</td>
     <td>Quantity</td>
+    <td>Times sold</td>
     <td>Actions</td>
 </tr>
 </thead>";
@@ -35,10 +59,12 @@ while ($row = mysqli_fetch_assoc($query)) {
     
     $data .= ">
     <td><img src=\"../../../product_images/{$row['image_file']}\" alt=\"\" height=\"50px\" width=\"50px\"></td>
+    <td>{$row['id']}</td>
     <td>{$row['title']}</td>
     <td>{$row['PRIX']}</td>
     <td>{$row['Category_name']}</td>
     <td>{$row['Quantity']}</td>
+    <td>{$row['times_sold']}</td>
 
    
    

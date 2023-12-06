@@ -8,7 +8,8 @@
 .display{
    
     padding-top: 1%;
-    overflow: auto; 
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 table {
@@ -192,6 +193,7 @@ textarea{
 }
 
 .main{
+  margin-left: 10%;
   position: relative;
   padding: 20px;
   width: 100%;
@@ -245,18 +247,18 @@ textarea{
   text-transform: capitalize;
 }
 
-
-.main-skills .card:nth-child(3){
-  background-color: rgba(100, 247, 123, 0.49); 
+.main-skills .card:nth-child(1){
+  background-color: rgba(100, 247, 123, 0.49);
 
   
 }
+
 .main-skills .card:nth-child(2){
   background-color: rgba(255, 255, 106, 0.53); 
 
   
 }
-.main-skills .card:nth-child(4){
+.main-skills .card:nth-child(3){
   background-color: rgba(255, 110, 106, 0.53); 
 
   
