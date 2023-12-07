@@ -9,7 +9,7 @@
    
     padding-top: 1%;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: hidden ;
 }
 
 table {
@@ -262,4 +262,11 @@ textarea{
   background-color: rgba(255, 110, 106, 0.53); 
 
   
+}
+
+.form-popup >img:hover{
+  content: url('image.jpg');
+  transition: opacity 0.3s ease;
+  opacity: 0.4;
+  cursor: pointer;
 }

@@ -141,7 +141,7 @@ FROM order_product;
         </div>
 		<div class="card">
           <i ><svg fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cancel</title> <path d="M10.771 8.518c-1.144 0.215-2.83 2.171-2.086 2.915l4.573 4.571-4.573 4.571c-0.915 0.915 1.829 3.656 2.744 2.742l4.573-4.571 4.573 4.571c0.915 0.915 3.658-1.829 2.744-2.742l-4.573-4.571 4.573-4.571c0.915-0.915-1.829-3.656-2.744-2.742l-4.573 4.571-4.573-4.571c-0.173-0.171-0.394-0.223-0.657-0.173v0zM16 1c-8.285 0-15 6.716-15 15s6.715 15 15 15 15-6.716 15-15-6.715-15-15-15zM16 4.75c6.213 0 11.25 5.037 11.25 11.25s-5.037 11.25-11.25 11.25-11.25-5.037-11.25-11.25c0.001-6.213 5.037-11.25 11.25-11.25z"></path> </g></svg></i>
-          <h3>Worst Product </h3>
+          <h3>Lowest Selling Product </h3>
 		  <p> <?php echo executeSingleValueQuery("SELECT 
     p.title,
     COUNT(op.id_order) AS total_sales
@@ -316,10 +316,27 @@ LIMIT 1
 for (var i = 0; i < popups.length; i++) {
     popups[i].style.display = 'none';
 }</script>
-<script>function openForm( formId) {
-	console.log(formId);
-document.getElementById("form_product_"+formId).style.display = "block";}
+<script>
+  function openForm(formId) {
+    console.log(formId);
+    var formElement = document.getElementById("form_product_" + formId);
+    formElement.style.display = "block";
+
+    var closeForm = function(event) {
+      var targetElement = event.target; // Element that triggered the event
+
+      if (!targetElement.closest('#form_product_' + formId)) {
+        formElement.style.display = "none";
+        document.removeEventListener('click', closeForm);
+      }
+    };
+
+    setTimeout(function() {
+      document.addEventListener('click', closeForm);
+    }, 0);
+  }
 </script>
+
 	<script src="script.js"></script> 
 
 
@@ -409,6 +426,12 @@ tr.children[2].innerHTML= formData.get('title')  ;
 tr.children[3].innerHTML= formData.get('price')  ;
 tr.children[4].innerHTML= formData.get('category')  ;
 tr.children[5].innerHTML= formData.get('quantity')  ;
+if(formData.get('quantity')==0){
+	tr.setAttribute("class","red_row");
+}
+else{
+	tr.setAttribute("class","");
+}
 alert("your product has ben changed succefully");
 
             })
@@ -470,4 +493,3 @@ alert("your product has ben changed succefully");
 
 </body>
 </html>
-
