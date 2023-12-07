@@ -334,7 +334,10 @@ for (var i = 0; i < popups.length; i++) {
     setTimeout(function() {
       document.addEventListener('click', closeForm);
     }, 0);
+
+	
   }
+
 </script>
 
 	<script src="script.js"></script> 
