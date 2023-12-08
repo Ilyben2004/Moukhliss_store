@@ -10,40 +10,7 @@
 
 
  ?>
- <?php
-  
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['runPhp'])) {
-   
-    $title = $_POST['title'];
-    $des = $_POST['descreption'];
-  
-    $price = $_POST['money'];
-    $targetDirectory = "../../../product_images/"; // Change this to your desired directory
-    $imageName = basename($_FILES['profileImage']['name']);
-    $qt  =$_POST['Quantity'];
-    $selectedCategory = $_POST['category'];
-  
-
-    $targetFilePath = $targetDirectory . $imageName;
-    
-    move_uploaded_file($_FILES['profileImage']['tmp_name'], $targetFilePath);
-    
-   if(is_numeric($price) AND is_numeric($qt)){
-  if(insertIntoP($title, $des, $price,getidbycate(  $selectedCategory),$qt,$imageName)){
-    $show =1;
-  }
  
-}
-else{
-    $show=2;
-}
-        
-   
- 
-   
-}
-
-?>
 
 
 
@@ -140,21 +107,9 @@ else{
   
 <!--you can type here-->
 <center>
-<?php 
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['runPhp'])) {
 
-    if($show==1){
-        echo"<h2> Product AddedSuccessfully</h2>";
-
-        
-    }
-    else{
-        echo"<h2>EROOR : PRODUCT CAN NOT BE ADDED</h2>";
-    }
-}
-     ?>
   
-<form method="post" enctype="multipart/form-data">
+<form action="upload.php"  method="post" enctype="multipart/form-data">
         <div   class="profile-form">
             <center>
              
@@ -202,6 +157,7 @@ else{
 
 
 </div>
+<script src="script.js"></script>
 </body>
 </html>
 
