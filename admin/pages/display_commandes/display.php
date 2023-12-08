@@ -3,11 +3,10 @@ session_start();
 require '../../../PHP/Functions.php';
  
 
-if (!isset($_SESSION['username'])) {
-  
+session_start();
+if (isset($_SESSION['username'])) {
+    // Redirect to another page
 	$user=$_SESSION['username'];
-
-
 }
 
 
@@ -86,7 +85,18 @@ if (!isset($_SESSION['username'])) {
 						<svg width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect x="0" fill="none" width="20" height="20"></rect> <g> <path d="M17 8h1v11H2V8h1V6c0-2.76 2.24-5 5-5 .71 0 1.39.15 2 .42.61-.27 1.29-.42 2-.42 2.76 0 5 2.24 5 5v2zM5 6v2h2V6c0-1.13.39-2.16 1.02-3H8C6.35 3 5 4.35 5 6zm10 2V6c0-1.65-1.35-3-3-3h-.02c.63.84 1.02 1.87 1.02 3v2h2zm-5-4.22C9.39 4.33 9 5.12 9 6v2h2V6c0-.88-.39-1.67-1-2.22z"></path> </g> </g></svg>
                        	All Products</a>
 					</li>
-					
+					<li>
+						<a href="..\display_commandes\display.php">
+						<svg  width="24" height="24" fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>shipping</title> <path d="M16.722 21.863c-0.456-0.432-0.988-0.764-1.569-0.971l-1.218-4.743 14.506-4.058 1.554 6.056-13.273 3.716zM12.104 9.019l9.671-2.705 1.555 6.058-9.67 2.705-1.556-6.058zM12.538 20.801c-0.27 0.076-0.521 0.184-0.765 0.303l-4.264-16.615h-1.604c-0.161 0.351-0.498 0.598-0.896 0.598h-2.002c-0.553 0-1.001-0.469-1.001-1.046s0.448-1.045 1.001-1.045h2.002c0.336 0 0.618 0.184 0.8 0.447h3.080v0.051l0.046-0.014 4.41 17.183c-0.269 0.025-0.538 0.064-0.807 0.138zM12.797 21.811c1.869-0.523 3.79 0.635 4.291 2.588 0.501 1.951-0.608 3.957-2.478 4.48-1.869 0.521-3.79-0.637-4.291-2.588s0.609-3.957 2.478-4.48zM12.27 25.814c0.214 0.836 1.038 1.332 1.839 1.107s1.276-1.084 1.062-1.92c-0.214-0.836-1.038-1.332-1.839-1.109-0.802 0.225-1.277 1.085-1.062 1.922zM29.87 21.701l-11.684 3.268c-0.021-0.279-0.060-0.561-0.132-0.842-0.071-0.281-0.174-0.545-0.289-0.799l11.623-3.25 0.482 1.623z"></path> </g></svg>
+							All Commands
+						</a>
+					</li>
+					<li>
+						<a href="..\display_users\display.php">
+							<svg  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+							All Users
+						</a>
+					</li>
 					
 				
 				</ul>
@@ -178,7 +188,7 @@ $Commands =getAllCommandes();
 			   ?>
 		
 
-	<tr <?php if(($command['dilivredate']<$todaysDate ) AND ($command['STATUS']!="Completed")){
+	<tr id="tr_<?php echo $command['id']; ?>" <?php if(($command['dilivredate']<$todaysDate ) AND ($command['STATUS']!="Completed")){
 		echo "class=red_row";
 	}?>>
 		
@@ -323,14 +333,29 @@ for (var i = 0; i < popups.length; i++) {
 		console.log(categoryName);
 		console.log(formId);
 
+		
 		let http = new XMLHttpRequest();
+http.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+        let response = JSON.parse(this.responseText);
+        console.log("Icon received:", response); // Log the received icon
+		console.log(formId);
+		var tr = document.getElementById("tr_"+formId);
+		tr.children[2].innerHTML=response.icon +`<span>`+ categoryName + `</span>`
+		if(categoryName=="Completed"){
+			tr.setAttribute("class","");
+		}
+    }
+}
 		
 		
 
 		http.open('POST', "script.php", true);
       http.setRequestHeader("content-type", "application/x-www-form-urlencoded");
       http.send("category=" + categoryName + "&id=" + formId );
-	  location.reload();
+	 
+
+	  
 
 
     
