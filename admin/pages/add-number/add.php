@@ -109,7 +109,7 @@
 <center>
 
   
-<form action="upload.php"  method="post" enctype="multipart/form-data">
+<form id="myform" action="upload.php"  enctype="multipart/form-data">
         <div   class="profile-form">
             <center>
              
@@ -146,7 +146,8 @@
 </select>
 <hr>
                 <br>
-                <button class="btn" type="submit" name="runPhp">Add this Product</button>
+                <button type="button" onclick="uploadProduct()">Add this Product</button>
+
             </center>
         </div>
     </form>

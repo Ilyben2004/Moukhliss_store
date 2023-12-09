@@ -1,5 +1,5 @@
 <?php
-  
+  require '../../../php/Functions.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
    
     $title = $_POST['title'];

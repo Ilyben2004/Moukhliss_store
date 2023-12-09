@@ -1,5 +1,6 @@
 <?php  
 
+
 function connect(){
     $mysqli = new mysqli('localhost', 'root', '', 'moukhliss_store');
     if($mysqli->connect_errno != 0){
