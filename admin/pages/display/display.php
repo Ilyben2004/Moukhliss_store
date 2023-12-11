@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require '../../../PHP/Functions.php';
  
 

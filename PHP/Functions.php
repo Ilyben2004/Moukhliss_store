@@ -217,7 +217,11 @@ function getAllCommandes(){
 
 function getAllUsers(){
     $mysqli = connect();
-   $res = $mysqli->query("SELECT * FROM users ");
+   $res = $mysqli->query("SELECT u.*, COUNT(o.id) AS num_orders
+   FROM users u
+   LEFT JOIN orders o ON u.id = o.id_user
+   GROUP BY u.id;
+   ");
     
    if ($res->num_rows > 0){
    while($row = $res->fetch_assoc()){

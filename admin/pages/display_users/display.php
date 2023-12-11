@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require '../../../PHP/Functions.php';
  
 
@@ -53,7 +53,7 @@ if (isset($_SESSION['username'])) {
 	<header class="menu-wrap">
 		<figure class="user">
 			<div class="user-avatar">
-				<img src="..\..\..\resources\images\profile.webp" alt="Amanda King">
+			<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 			</div>
 			<figcaption>
 				<?php  echo $user ?>
@@ -114,7 +114,129 @@ if (isset($_SESSION['username'])) {
   <div class="display">
 	<div class="before_table">
 		
+	<section class="main">
+      
+      <div class="main-skills">
 	
+	
+       
+        <div class="card">
+          <i ><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 19.2857L15.8 21L20 17M4 21C4 17.134 7.13401 14 11 14C12.4872 14 13.8662 14.4638 15 15.2547M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></i>
+          <h3>best User  </h3>
+		  <p> <?php echo executeSingleValueQuery("SELECT u.username
+FROM users u
+JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+JOIN order_product op ON o.id = op.id_order
+JOIN products p ON op.id_product = p.id
+GROUP BY u.id, u.username
+ORDER BY SUM(p.PRIX * op.quantity) DESC
+LIMIT 1;
+"); echo " Spent :  "; echo executeSingleValueQuery("SELECT SUM(p.PRIX * op.quantity) AS total_spent_by_top_user
+FROM users u
+JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+JOIN order_product op ON o.id = op.id_order
+JOIN products p ON op.id_product = p.id
+WHERE u.username = (
+    SELECT u.username
+    FROM users u
+    JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+    JOIN order_product op ON o.id = op.id_order
+    JOIN products p ON op.id_product = p.id
+    GROUP BY u.id, u.username
+    ORDER BY SUM(p.PRIX * op.quantity) DESC
+    LIMIT 1
+)
+GROUP BY u.id, u.username;
+");echo "MAD"; ?></p> 
+        </div>
+       
+        <div class="card">
+          <i ><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 19.2857L15.8 21L20 17M4 21C4 17.134 7.13401 14 11 14C12.4872 14 13.8662 14.4638 15 15.2547M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></i>
+          <h3>User Number 2</h3>
+		  <p> <?php echo executeSingleValueQuery("SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent_by_second_user
+FROM (
+    SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent
+    FROM users u
+    JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+    JOIN order_product op ON o.id = op.id_order
+    JOIN products p ON op.id_product = p.id
+    GROUP BY u.id, u.username
+    ORDER BY total_spent DESC
+    LIMIT 1 OFFSET 1
+) AS second_highest
+JOIN users u ON u.username = second_highest.username
+JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+JOIN order_product op ON o.id = op.id_order
+JOIN products p ON op.id_product = p.id
+GROUP BY u.id, u.username;
+
+"); echo " Spent :  "; echo executeSingleValueQuery("SELECT SUM(p.PRIX * op.quantity) AS total_spent_by_second_user
+FROM (
+    SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent
+    FROM users u
+    JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+    JOIN order_product op ON o.id = op.id_order
+    JOIN products p ON op.id_product = p.id
+    GROUP BY u.id, u.username
+    ORDER BY total_spent DESC
+    LIMIT 1 OFFSET 1
+) AS second_highest
+JOIN users u ON u.username = second_highest.username
+JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+JOIN order_product op ON o.id = op.id_order
+JOIN products p ON op.id_product = p.id
+GROUP BY u.id, u.username;
+
+");echo "MAD"; ?></p>          
+        </div>
+		<div class="card">
+          <i ><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 19.2857L15.8 21L20 17M4 21C4 17.134 7.13401 14 11 14C12.4872 14 13.8662 14.4638 15 15.2547M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></i>
+          <h3>User Number 3 </h3>
+		  <p> <?php echo executeSingleValueQuery("SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent_by_third_user
+FROM (
+    SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent
+    FROM users u
+    JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+    JOIN order_product op ON o.id = op.id_order
+    JOIN products p ON op.id_product = p.id
+    GROUP BY u.id, u.username
+    ORDER BY total_spent DESC
+    LIMIT 1 OFFSET 2
+) AS third_highest
+JOIN users u ON u.username = third_highest.username
+JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+JOIN order_product op ON o.id = op.id_order
+JOIN products p ON op.id_product = p.id
+GROUP BY u.id, u.username;
+
+
+"); echo " Spent :  "; echo executeSingleValueQuery("SELECT SUM(p.PRIX * op.quantity) AS total_spent_by_third_user
+FROM (
+    SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent
+    FROM users u
+    JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+    JOIN order_product op ON o.id = op.id_order
+    JOIN products p ON op.id_product = p.id
+    GROUP BY u.id, u.username
+    ORDER BY total_spent DESC
+    LIMIT 1 OFFSET 2
+) AS third_highest
+JOIN users u ON u.username = third_highest.username
+JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
+JOIN order_product op ON o.id = op.id_order
+JOIN products p ON op.id_product = p.id
+GROUP BY u.id, u.username;
+
+
+");echo "MAD"; ?></p> 
+        </div>
+      </div>
+
+     
+     
+    </section>
+	
+	<center>
 
 	</div>
 
@@ -134,6 +256,7 @@ if (isset($_SESSION['username'])) {
 		<td>Last Name</td>
 		<td>Username </td>
 		<td>Email</td>
+		<td>Orders</td>
 	</tr>
 	</thead>
 	<?php 
@@ -156,9 +279,10 @@ if (isset($_SESSION['username'])) {
 		<td><?php echo $product['USERNAME']; ?></td>
 		
 		<td><?php echo $product['EMAIL'];?></td>
+		<td><?php echo $product['num_orders'];?></td>
 		
 		
-		</td>
+		
 		
 	</tr>
 	
