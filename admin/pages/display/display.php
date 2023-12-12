@@ -279,12 +279,12 @@ LIMIT 1
  
   foreach ($cates as $cate) {
 
-	if($cate['Category_name']!=$product['Category_name']){
+	if($cate['Category_Name']!=$product['Category_name']){
 
 
 
    ?>
-<option  value="<?php echo $cate['Category_name'] ?>"><?php echo $cate['Category_name']  ?></option><?php }}?>
+<option  value="<?php echo $cate['Category_Name'] ?>"><?php echo $cate['Category_Name']  ?></option><?php }}?>
   </select></div>
 	</center>
 	<hr>

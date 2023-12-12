@@ -1,10 +1,24 @@
 
 <?php
 // Your PHP code goes here
-require 'PHP/Functions.php';
 
+function db() {
+    $host = "localhost:3306";
+    $username = "root";
+    $password = "";
+    $db = "moukhliss_store";
 
-$conn=connect();
+    // Create connection
+    $conn = new mysqli($host, $username, $password, $db);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    return $conn;
+}
+$conn=db();
 
 
     //*********************************************/

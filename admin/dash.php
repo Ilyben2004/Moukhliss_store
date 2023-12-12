@@ -115,7 +115,12 @@ if (isset($_SESSION['username'])) {
 					</div>
 					
 					<div class="box-content">
-						<span class="big"><?php echo executeSingleValueQuery("SELECT SUM(op.QUANTITY * p.PRIX) AS total_revenue FROM `ORDERs` o JOIN ORDER_PRODUCT op ON o.ID = op.ID_ORDER JOIN products p ON op.ID_PRODUCT = p.ID WHERE o.STATUS = 'Completed';"); ?></span>
+						<span class="big"><?php echo executeSingleValueQuery("SELECT ROUND(SUM(op.QUANTITY * p.PRIX), 2) AS total_revenue 
+FROM `ORDERs` o 
+JOIN ORDER_PRODUCT op ON o.ID = op.ID_ORDER 
+JOIN products p ON op.ID_PRODUCT = p.ID 
+WHERE o.STATUS = 'Completed';
+"); ?></span>
 						The total revenue 				</div>
 				</div>
 				
@@ -126,7 +131,7 @@ if (isset($_SESSION['username'])) {
 					
 					
 					<div class="box-content">
-						<span class="big"><?php echo executeSingleValueQuery("SELECT SUM(op.QUANTITY * p.PRIX) AS total_revenue FROM `ORDERs` o JOIN ORDER_PRODUCT op ON o.ID = op.ID_ORDER JOIN products p ON op.ID_PRODUCT = p.ID WHERE o.STATUS = 'Completed'
+						<span class="big"><?php echo executeSingleValueQuery("SELECT  ROUND(SUM(op.QUANTITY * p.PRIX), 2) AS total_revenue FROM `ORDERs` o JOIN ORDER_PRODUCT op ON o.ID = op.ID_ORDER JOIN products p ON op.ID_PRODUCT = p.ID WHERE o.STATUS = 'Completed'
  AND o.ordate >= DATE_SUB(NOW(), INTERVAL 7 DAY);
  ;"); ?></span>
 						The total revenue <br> (last 7 days)
@@ -155,6 +160,19 @@ if (isset($_SESSION['username'])) {
 					</div>
 				</div>
 				
+
+				<div class="info-box">
+					<div class="box-icon">
+					<svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g fill="none" fill-rule="evenodd" id="页面-1" stroke="none" stroke-width="1"> <g id="导航图标" transform="translate(-325.000000, -80.000000)"> <g id="编组" transform="translate(325.000000, 80.000000)"> <polygon fill="#FFFFFF" fill-opacity="0.01" fill-rule="nonzero" id="路径" points="24 0 0 0 0 24 24 24"></polygon> <polygon id="路径" points="22 7 12 2 2 7 2 17 12 22 22 17" stroke="#212121" stroke-linejoin="round" stroke-width="1.5"></polygon> <line id="路径" stroke="#212121" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="2" x2="12" y1="7" y2="12"></line> <line id="路径" stroke="#212121" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="12" x2="12" y1="22" y2="12"></line> <line id="路径" stroke="#212121" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="22" x2="12" y1="7" y2="12"></line> <line id="路径" stroke="#212121" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="17" x2="7" y1="4.5" y2="9.5"></line> </g> </g> </g> </g></svg>
+					</div>
+					
+					
+					<div class="box-content">
+						<span class="big"><?php echo executeSingleValueQuery("SELECT  count(*) from products 
+ ;"); ?></span>
+						How Many Products
+					</div>
+				</div>
 				
 			
 			</section>
