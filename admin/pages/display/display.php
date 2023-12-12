@@ -284,7 +284,7 @@ LIMIT 1
 
 
    ?>
-<option  value="<?php echo $cate['Category_Name'] ?>"><?php echo $cate['Category_Name']  ?></option><?php }}?>
+<option  value="<?php echo $cate['Category_name'] ?>"><?php echo $cate['Category_name']  ?></option><?php }}?>
   </select></div>
 	</center>
 	<hr>
