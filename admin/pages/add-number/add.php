@@ -152,6 +152,7 @@
                      ?>
 					
 <option  value="<?php echo $cate['Category_name'] ?>"><?php echo $cate['Category_name']  ?></option><?php }?>
+<option  value="ADD">Add A new Category</option>
 
 </select>
 <hr>
@@ -171,6 +172,15 @@
 </div>
 
 <script src="script.js"></script>
+<script>
+	 var selecter = document.getElementById("products");
+    selecter.addEventListener("change",function(){
+     if(selecter.value=="ADD")
+	 alert("you changed me");
+    })
+</script>
+
+
 </body>
 </html>
 

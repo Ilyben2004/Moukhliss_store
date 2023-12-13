@@ -19,15 +19,37 @@ if (isset($_SESSION['username'])) {
 
 ?>
 
+<?php 
+// Count products by category
+$sqlProductsByCategory = "SELECT c.Category_name, COUNT(p.id_category) AS Product_Count FROM category c LEFT JOIN products p ON c.id = p.id_category GROUP BY c.Category_name;
+";
+$conn=connect();
+$resultProductsByCategory = $conn->query($sqlProductsByCategory);
+
+$categoriesProducts = [];
+$productCountsByCategory = [];
+
+while ($row = $resultProductsByCategory->fetch_assoc()) {
+    $categoriesProducts[] = $row['Category_name'];
+    $productCountsByCategory[] = $row['Product_Count'];
+}
+
+// Convertissez les données en format JSON pour que JavaScript puisse les utiliser
+$categoriesProductsJson = json_encode($categoriesProducts);
+$productCountsByCategoryJson = json_encode($productCountsByCategory);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <link rel="icon" type="image/jpeg" href="../gym.jpeg"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <meta charset="UTF-8">
     <title>DASHBOARD</title>
     <link rel="stylesheet" href="style.css">
-
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   
@@ -103,10 +125,10 @@ if (isset($_SESSION['username'])) {
 			
 		</nav>
 	</header>
-	
+
 	<main class="content-wrap">
-		
-		
+	
+	<h2>Statistiques </h2>
 		<div class="content">
 			<section class="info-boxes">
 				<div class="info-box">
@@ -173,9 +195,120 @@ WHERE o.STATUS = 'Completed';
 						How Many Products
 					</div>
 				</div>
+
+				<div class="info-box">
+					<div class="box-icon">
+					<svg fill="#000000" viewBox="-7.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>category</title> <path d="M2.594 4.781l-1.719 1.75h15.5l-1.719-1.75h-12.063zM17.219 13.406h-17.219v-6.031h17.219v6.031zM12.063 11.688v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875zM17.219 20.313h-17.219v-6.031h17.219v6.031zM12.063 18.594v-1.75h-6.875v1.75h0.844v-0.875h5.156v0.875h0.875zM17.219 27.188h-17.219v-6h17.219v6zM12.063 25.469v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875z"></path> </g></svg>
+					</div>
+					
+					
+					<div class="box-content">
+						<span class="big"><?php echo executeSingleValueQuery("SELECT  count(*) from category 
+ ;"); ?></span>
+						How Many Products
+					</div>
+				</div>
+
+				
+						
+		
 				
 			
 			</section>
+			<hr>
+			<h2>PRODUCTS BY CATEGORY</h2>
+			
+			<div id="big3">
+    
+        <canvas id="myChart"></canvas>
+
+</div>
+<hr>
+<h2>Commands passed this week</h2>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Passed by </th>
+      <th scope="col">Status</th>
+      <th scope="col">Order Date</th>
+	  <th scope="col">Delivre Date</th>
+
+    </tr>
+  </thead>
+  <tbody>
+  <?php 
+$Commands =getAllCommandesInThisWeek();
+if ($Commands!=0){
+	
+	 foreach ($Commands as $command) {
+ ?>
+    <tr>
+      <td><?php echo$command['id']; ?></td>
+      <td><?php echo$command['FN']." ".$command['LN'];?></td>
+      <td><?php echo$command['STATUS']; ?></td>
+	  <td><?php echo$command['ordate']; ?></td>
+	  <td><?php echo$command['dilivredate']; ?></td>
+
+     
+    </tr>
+	<?php 
+
+	 }}
+ ?>
+    
+  </tbody>
+</table>
+
+
+
+			
+	
+</div>
+</div>
+
+        
+    
+            </div>
+
+         <script>
+        // Utilisez les données PHP dans le script JavaScript
+		 // Adjust the height as needed
+
+        var categories = <?php echo $categoriesProductsJson; ?>;
+        var productCounts = <?php echo $productCountsByCategoryJson; ?>;
+    
+        // Configuration du diagramme
+        var chartData = {
+            labels: categories,
+            datasets: [{
+                label: "Number of products by category",
+                data: productCounts,
+                backgroundColor: '#1956abea',
+                borderColor: '#0f376eea',
+                borderWidth: 1
+            }]
+        };
+    
+        var chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+    
+        // Création du diagramme
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: chartOptions
+        });
+    </script>
 		
 			
 		</div>

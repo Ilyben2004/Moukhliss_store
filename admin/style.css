@@ -265,4 +265,45 @@
     cursor: pointer;
   }
 
-  
+  a{
+    cursor: pointer;
+  }
+  svg{
+    cursor: pointer;
+  }
+
+
+  #big3{
+    color: black;
+    width:1000px;
+    height:350px;
+    margin-bottom:30px;
+}
+#myChart {
+   width:40%; /* Assurez-vous que le diagramme ne dépasse pas de son conteneur */
+   
+    
+    display: block; /* Évite un léger espace sous le diagramme */
+}
+
+#big3 h4 {
+    color: #041e42;
+    margin-top: 10px;
+}
+#big3 h3{
+    
+    position: absolute;
+    left:250px;
+    font-family: 'Lucida Sans';
+}
+#jorrari{
+  display: inline;
+}
+h2{
+  color: #133b74ea;
+  font-weight:600;
+}
+
+.table{
+  box-shadow: #0149e2;
+}
