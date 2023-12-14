@@ -8,6 +8,10 @@
 	-webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
 	text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
+#originalTable,#searchResults{
+	margin-left: 4%;
+}
+
 body
 {
 	font-family: 'Rubik', sans-serif;
@@ -1109,9 +1113,4 @@ select option
 
 .odd {
 	background-color: #ffffff; /* White color, or any other color you prefer */
-}
-
-
-#originalTable , #searchResults{
-	margin-left: 5.5%;
 }

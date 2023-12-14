@@ -131,7 +131,8 @@ JOIN products p ON op.id_product = p.id
 GROUP BY u.id, u.username
 ORDER BY SUM(p.PRIX * op.quantity) DESC
 LIMIT 1;
-"); echo " Spent :  "; echo executeSingleValueQuery("SELECT SUM(p.PRIX * op.quantity) AS total_spent_by_top_user
+"); echo " Spent :  "; echo executeSingleValueQuery("SELECT ROUND(SUM(p.PRIX * op.quantity), 2)
+AS total_spent_by_top_user
 FROM users u
 JOIN orders o ON u.id = o.id_user AND o.status = 'Completed'
 JOIN order_product op ON o.id = op.id_order
@@ -153,7 +154,7 @@ GROUP BY u.id, u.username;
         <div class="card">
           <i ><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14 19.2857L15.8 21L20 17M4 21C4 17.134 7.13401 14 11 14C12.4872 14 13.8662 14.4638 15 15.2547M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></i>
           <h3>User Number 2</h3>
-		  <p> <?php echo executeSingleValueQuery("SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent_by_second_user
+		  <p> <?php echo executeSingleValueQuery("SELECT u.username, ROUND(SUM(p.PRIX * op.quantity), 2) AS total_spent_by_second_user
 FROM (
     SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent
     FROM users u
@@ -170,7 +171,7 @@ JOIN order_product op ON o.id = op.id_order
 JOIN products p ON op.id_product = p.id
 GROUP BY u.id, u.username;
 
-"); echo " Spent :  "; echo executeSingleValueQuery("SELECT SUM(p.PRIX * op.quantity) AS total_spent_by_second_user
+"); echo " Spent :  "; echo executeSingleValueQuery("SELECT ROUND(SUM(p.PRIX * op.quantity), 2) AS total_spent_by_second_user
 FROM (
     SELECT u.username, SUM(p.PRIX * op.quantity) AS total_spent
     FROM users u

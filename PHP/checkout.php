@@ -1,30 +1,27 @@
 <?php
-require "config.php"; // Include your database connection file
-require '../vendor/autoload.php'; // Include PHPMailer autoload
+require "config.php"; 
+require '../vendor/autoload.php'; 
 session_start();
 $conn = db();
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Ensure that this script is accessed via a POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the user ID from the POST data
     $userId = $_POST['user_id'];
 
-    // Create a new order
+    
     $orderStatus = 'Pending';
-    $orderDate = date('Y-m-d'); // Today's date
-    $deliveryDate = date('Y-m-d', strtotime('+5 days')); // Today's date + 5 days
+    $orderDate = date('Y-m-d'); 
+    $deliveryDate = date('Y-m-d', strtotime('+5 days')); 
 
-    // Insert order into the orders table
+    
     $insertOrderQuery = "INSERT INTO orders (id_user, STATUS, ordate, dilivredate) VALUES ('$userId', '$orderStatus', '$orderDate', '$deliveryDate')";
     mysqli_query($conn, $insertOrderQuery);
 
-    // Get the ID of the newly inserted order
+    
     $orderId = mysqli_insert_id($conn);
 
-    // Move items from panier to order_products
     $moveItemsQuery = "INSERT INTO order_product (id_order, id_product, quantity) SELECT '$orderId', id_product, quantity FROM panier WHERE id_user = '$userId'";
     mysqli_query($conn, $moveItemsQuery);
 
@@ -39,26 +36,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_query($conn, $updateProductQuery);
     }
 
-    // Clear the panier for the user
+    
     $clearPanierQuery = "DELETE FROM panier WHERE id_user = '$userId'";
     mysqli_query($conn, $clearPanierQuery);
 
-    // Return a response (optional)
+  
     echo json_encode(['message' => 'Checkout successful']);
 
-    // Send email
+    
     $mail = new PHPMailer(true);
 
     try {
-        $stmt = $conn->prepare("SELECT EMAIL, USERNAME FROM users WHERE id = '$userId'");
+        $stmt = $conn->prepare("SELECT EMAIL, USERNAME FROM users WHERE id = ?");
+        $stmt->bind_param('i', $userId);
         $stmt->execute();
 
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
         if ($user) {
-            // Server settings
+            $orderProductsQuery = "SELECT op.*, p.title, p.PRIX FROM order_product op
+            INNER JOIN products p ON op.id_product = p.id
+            WHERE op.id_order = ?";
+            $orderProductsStatement = $conn->prepare($orderProductsQuery);
+            $orderProductsStatement->bind_param('i', $orderId);
+            $orderProductsStatement->execute();
+            $orderProductsResult = $orderProductsStatement->get_result();
+
+            if ($orderProductsResult) {
+                $totalBill = 0;
+                $orderProducts = $orderProductsResult->fetch_all(MYSQLI_ASSOC);
+                foreach ($orderProducts as $product) {
+                    $totalBill += $product['quantity'] * $product['PRIX'];
+                }
+            
             $mail->isSMTP();
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                )
+              );
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'irooonside@gmail.com';
@@ -66,27 +85,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
-            // Recipients
+            
             $mail->setFrom('irooonside@gmail.com', 'ProFitFuel');
             $mail->addAddress($user['EMAIL'], 'Recipient Name');
 
-            // Content
+            
             $mail->isHTML(true);
             $mail->Subject = 'Order Confirmation';
 
-            // Customize the email body for a more detailed order confirmation
-            $orderConfirmation = "
-                <p><strong>Dear {$user['USERNAME']},</strong></p>
-                
-                <p>Thank you for your order with ProFitFuel! Your order (ID: {$orderId}) has been successfully placed and processed.</p>
-                <p>Best regards,<b><br>ProFitFuel Team</b></p>
-            ";
 
-            $mail->Body    = $orderConfirmation;
-            // Send the email
-            $mail->send();
-            echo 'Email sent successfully to ' . $user['EMAIL'];
-        } else {
+            $orderConfirmation = "
+            <p><strong>Dear {$user['USERNAME']},</strong></p>
+            
+            <p>Thank you for your order with ProFitFuel! Your order (ID: {$orderId}) has been successfully placed and processed.</p>
+            
+            <p><strong>Order Details:</strong></p>
+            <ul>";
+        
+        foreach ($orderProducts as $product) {
+            $orderConfirmation .= "<li><b>{$product['title']}</b> - <b>Quantity:</b> {$product['quantity']} - <b>Price: </b>{$product['PRIX']}</li>";
+        }
+        $totalBill += 20;
+        $orderConfirmation .= "</ul>
+                              <p><strong>Total Bill: {$totalBill}</strong></p>
+                              <p>Best regards,<b><br>ProFitFuel Team</b></p>
+        ";
+
+        $mail->Body = $orderConfirmation;
+
+        $mail->send();
+        echo 'Email sent successfully to ' . $user['EMAIL'];
+    }
+        }
+        else {
             echo 'User not found.';
         }
     } catch (Exception $e) {

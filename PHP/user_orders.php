@@ -16,7 +16,7 @@ if ($userResult && mysqli_num_rows($userResult) > 0) {
     $userId = $userRow['id'];
 }
 
-$sql = "SELECT * FROM orders WHERE id_user = $userId";
+$sql = "SELECT * FROM orders WHERE id_user = '$userId' AND STATUS != 'Cancelled'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -47,7 +47,10 @@ if ($result->num_rows > 0) {
             $confirmationMessage = "Are you sure you want to cancel this order?";
             $action = '<button class="btn btn-danger" onclick="showConfirmationDialog(\'Are you sure you want to cancel this order?\', ' . $row["id"] . ');">Cancel Order</button>';
         } else {
-            $action = '<button class="btn btn-warning" onclick="showFeedbackModal()">You Feedback</button>';
+            $action = '<button class="btn btn-warning" onclick="showFeedbackModal()">Your Feedback</button>';
+            $orderId = $row['id'];
+            $updateOrder = "UPDATE orders SET STATUS ='Completed' WHERE id= '$orderId'";
+            $r = $conn->query($updateOrder);
         }
         
         echo '<tr class="' . $rowColorClass . '">';
@@ -71,6 +74,6 @@ if ($result->num_rows > 0) {
 }
 
 
-// Close connection
+
 $conn->close();
 ?>

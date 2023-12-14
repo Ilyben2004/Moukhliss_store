@@ -110,12 +110,6 @@
 <!--you can type here-->
 <center>
 
-<div id="message">
-
-
-
-
-</div>
 
 
   
@@ -154,7 +148,7 @@
                      ?>
 					
 <option  value="<?php echo $cate['Category_name'] ?>"><?php echo $cate['Category_name']  ?></option><?php }?>
-<option  value="ADD">Add A new Category</option>
+<option id="lastop"  value="ADD">Add A new Category</option>
 
 </select>
 <hr>
@@ -173,7 +167,6 @@
 
 </div>
 
-<script src="script.js"></script>
 
 
 <div  class="form-popup" id="Add_category">
@@ -184,6 +177,14 @@
 
 		<button id="addbttn">ADD</button>
 	</div>
+
+
+	<div class="form-popup"   id="message">
+
+
+
+</div>
+
 	<script>
 
 function insertBefore(newNode, existingNode) {
@@ -192,6 +193,8 @@ function insertBefore(newNode, existingNode) {
 	 var selecter = document.getElementById("products");
 	 var minipage = document.getElementById("Add_category");
 	 minipage.style.display='none';
+	 var minipagemessage = document.getElementById("message");
+	 minipagemessage.style.display='none';
     selecter.addEventListener("change",function(){
      if(selecter.value=="ADD"){
 	
@@ -252,6 +255,20 @@ selecter.selectedIndex = selectedIndex;
 
     })
 </script>
+<script>
+	function openmini(){
+		var minipagemessage = document.getElementById("message");
+	 minipagemessage.style.display='block';
+	 console.log("ayman");
+
+
+	}
+	
+	
+	
+	
+</script>
+<script src="script.js"></script>
 </body>
 </html>
 

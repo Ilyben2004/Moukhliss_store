@@ -192,7 +192,7 @@ color: black;
   left: 50%; /* Position div at 50% from the left */
   transform: translate(-50%, -50%); /* Center the div horizontally and vertically */
   border: 8px solid #a9a9a9;
-  z-index: 100;
+  z-index: 1000;
   background-color:#f5f5fa;
  max-height: 700px;
   width: 600px;
@@ -207,4 +207,15 @@ color: black;
 }
 .form-popup svg{
   height: 100px;
+}
+#lastop{
+background-color: rgba(15, 200, 15, 0.587);
+font-size: 20px;
+}
+
+
+
+#message{
+  line-height: 40px;
+ max-height: 300px;
 }

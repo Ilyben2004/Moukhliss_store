@@ -1,18 +1,6 @@
 <?php
-function db() {
-    $host = "localhost:3306";
-    $username = "root";
-    $password = "";
-    $db = "moukhliss_store";
+include "./config.php";
 
-    $conn = new mysqli($host, $username, $password, $db);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    return $conn;
-}
 
 $searchTerm = $_GET['term'] ?? '';
 
