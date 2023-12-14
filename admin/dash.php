@@ -205,7 +205,7 @@ WHERE o.STATUS = 'Completed';
 					<div class="box-content">
 						<span class="big"><?php echo executeSingleValueQuery("SELECT  count(*) from category 
  ;"); ?></span>
-						How Many Products
+						How Many Categories
 					</div>
 				</div>
 
